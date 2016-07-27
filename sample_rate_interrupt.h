@@ -6,7 +6,7 @@
 namespace SampleRateInterrupt {
     void enable();
     void disable();
-    void initialize(uint32_t clock, uint32_t rate, void (*callback)());
+    void initialize(uint32_t clock);
     void setRate(uint32_t newRate);
     void setCallback(void (*newCallback)());
     uint16_t getRate();

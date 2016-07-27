@@ -12,9 +12,6 @@ void SampleRateInterrupt::enable() {
 void SampleRateInterrupt::disable() {
     TIMSK2 &= ~(1 << OCIE2A);
 }
-void setClockRate(uint32_t rate) {
-    clockRate = rate;
-}
 void SampleRateInterrupt::setRate(uint32_t rate) {
     disable();
     uint8_t prescales[] = {0, 3, 5, 6, 7, 8, 10};
@@ -36,6 +33,10 @@ uint16_t SampleRateInterrupt::getRate() {
 }
 void SampleRateInterrupt::setCallback(void (*newCallbackFunction)()) {
     callbackFunction = newCallbackFunction;
+}
+void SampleRateInterrupt::initialize(uint32_t clock) {
+    clockRate = clock;
+    disable;
 }
 ISR(TIMER2_COMPA_vect) {
     callbackFunction();
