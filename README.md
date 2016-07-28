@@ -8,7 +8,7 @@ Code may be compatable with Arduino products that use the above processors.
 
 Note: High rates and changes to timer2 outside of the namespace may produce undesired results, code is written in C++ and may not be as optimal as an ASM implementation.
 
-# Methods
+# Methods and examples
 
 * Timer2Interrupt::initialize(16000000, 16000, &processInput);
 
