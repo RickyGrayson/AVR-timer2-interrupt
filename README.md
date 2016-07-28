@@ -1,34 +1,44 @@
-# Atmega328 timer2 interrupt generator  V0.1
+# Atmega328 timer2 interrupt generator V0.2
 
-Calls a callback at a given frequency.
+Calls a callback function at a given frequency.
 
-Designed specifically for the atmega328's timer2 counter for an audio project.
+Designed specifically to use the atmega328P's  timer2 counter, but also compatable the 48A/PA, 88A/PA, 168A/PA & 328.
 
-# Examples
+Code may be compatable with Arduino products that use the above processors.
 
-SampleRateInterrupt::initialize(16000000); //Initialises & sets Clock Frequency to 16Mhz
+Note: High rates and changes to timer2 outside of the namespace may produce undesired results, code is written in C++ and may not be as optimal as an ASM implementation.
 
-SampleRateInterrupt::setRate(8000); //Set the rate to interrupt the program at as close to 8khz
+# Methods
 
-SampleRateInterrupt::setCallback(&generateNextSample); 
+* Timer2Interrupt::initialize(16000000, 16000, &processInput);
 
-//^Sets the function to call when interrupt is triggered to generateNextSample() 
+Initializes all variables sets processor clock frequency to 16Mhz and readies processInput() to be called at 16khz
 
-SampleSampleRateInterrupt::enable(); //Enables the interrupt
+Note: callback function cannot return a variable or accept any arguments 
 
-SampleSampleRateInterrupt::disable(); //Disables the interrupt
+* Timer2Interrupt::setRate(8000);
 
-uint16_t sampleRate = SampleSampleRateInterrupt::getRate(); //gets the actual theoretical rate the intrerupt is running at
+Changes rate to 8000 if running changes happen before callback is called.
 
-# Future Updates
+Values above and below timer limits will be set as the limit.
 
-* fix setRate bug to check if timer2 is active before deactivating and reactivating. Currently a call to setRate will activate the timer.
-* Tidy up and check everything is set before enable.
-* Add boolean output to enable so user can see if it is set.
-* May change setRate to accept uint32_t values
-* May change to initialize(uint32_t ClockRate, uint32_t Frequency, void (*CallbackFunction)())
+* Timer2Interrupt::setCallback(&getNextSample);
 
+Changes callback function, disables and renables global interrupts incase things could go wrong.
 
+* Timer2Interrupt::enable(true);
 
+Enables interrupt.
 
+* Timer2Interrupt::enable(false);
+
+Disables interrupt.
+
+* uint32_t interruptRate = Timer2Interrupt::getRate();
+
+returns rate via registers if active or rate via internal variables if inactive 
+
+* uint32_t interruptActive = Timer2Interrupt::enabled();
+ 
+returns interrupt active vis registers
 
