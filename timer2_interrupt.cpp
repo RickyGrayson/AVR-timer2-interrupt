@@ -79,6 +79,7 @@ bool Timer2Interrupt::enabled() {
     return (TIMSK2 & (1 << OCIE2A)) && (TCCR2B & 7);
 }
 ISR(TIMER2_COMPA_vect) {
+    callbackFunction_();
     if (setNewRate_) {
         cli();
         OCR2A = compareMatch_;
@@ -86,5 +87,4 @@ ISR(TIMER2_COMPA_vect) {
         setNewRate_ = false;
         sei();
     }
-    callbackFunction_();
 };
