@@ -76,7 +76,7 @@ uint32_t Timer2Interrupt::getRate() {
     return 0;
 }
 bool Timer2Interrupt::enabled() {
-    return (TIMSK2 & (1 << OCIE2A)) && (TCCR2B != 0);
+    return (TIMSK2 & (1 << OCIE2A)) && (TCCR2B & 7);
 }
 ISR(TIMER2_COMPA_vect) {
     if (setNewRate_) {
